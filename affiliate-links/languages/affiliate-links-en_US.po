@@ -1,0 +1,185 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Affiliate Links\n"
+"POT-Creation-Date: 2016-05-27 15:48+0300\n"
+"PO-Revision-Date: 2016-05-27 16:48+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: __;_e;esc_html__;esc_html_e;esc_attr__;esc_attr_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin/class-affiliate-links-metabox.php:118
+msgid "Link URL"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:127
+msgid "Hits"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:169
+msgid "All Categories"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:206
+msgid "Link Settings"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:215
+msgid "Link Embedding"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:224
+msgid "Information"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:460
+msgid "Total Hits"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:464
+msgid "Are you sure?"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:465
+msgid "Reset count"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:470
+msgid "Total count of link redirects"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:484
+msgid "Your link"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:488
+#: admin/partials/metabox-embed.php:59 admin/partials/metabox-embed.php:65
+msgid "Copy"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:490
+msgid "To change this link you should edit Permalink at the top of screen"
+msgstr ""
+
+#: admin/class-affiliate-links-settings.php:90
+msgid "Configure your link redirection here"
+msgstr ""
+
+#: admin/class-affiliate-links-settings.php:187
+msgid "Affiliate Links Settings"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:4
+msgid "Add rel=\"nofollow\""
+msgstr ""
+
+#: admin/partials/metabox-embed.php:9
+msgid "Discourage search engines from following this link"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:15
+msgid "Add target=\"_blank\""
+msgstr ""
+
+#: admin/partials/metabox-embed.php:20
+msgid "Link will be opened in a new browser tab"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:26
+msgid "Add link title"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:30
+msgid "Title text on link hover"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:35
+msgid "Add link class"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:39
+msgid "CSS class for custom styling"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:44
+msgid "Add link anchor"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:48
+msgid "Clickable link text"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:56
+msgid "Embed HTML link"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:62
+msgid "Embed Shortcode"
+msgstr ""
+
+#: admin/partials/metabox-sidebar.php:2
+msgid "Plugin Website"
+msgstr ""
+
+#: admin/partials/metabox-sidebar.php:3 admin/partials/settings-nav-tabs.php:4
+msgid "Docs"
+msgstr ""
+
+#: admin/partials/metabox-sidebar.php:4 admin/partials/settings-nav-tabs.php:3
+msgid "FAQ"
+msgstr ""
+
+#: admin/partials/metabox-sidebar.php:5
+msgid "Support"
+msgstr ""
+
+#: admin/partials/settings-nav-tabs.php:2
+msgid "Settings"
+msgstr ""
+
+#: admin/partials/settings-sidebar.php:3
+msgid "Visit TeamDev.com"
+msgstr ""
+
+#: admin/partials/settings-sidebar.php:7
+msgid "Visit Plugin Website"
+msgstr ""
+
+#: includes/class-affiliate-links.php:77 includes/class-affiliate-links.php:78
+msgid "Add New Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:79
+msgid "New Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:80
+msgid "Edit Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:81
+msgid "Update Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:82
+msgid "View Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:83
+msgid "Search Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:97
+msgid "Affiliate Link Post Type"
+msgstr ""
+
+#: includes/class-affiliate-links.php:130
+msgid "Categories"
+msgstr ""
