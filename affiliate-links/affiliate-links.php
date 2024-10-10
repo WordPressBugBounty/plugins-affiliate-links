@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Affiliate Links Lite
- * Description: A powerful tool for managing and masking affiliate links. Create any redirect links to any website from your WordPress Admin. Perfect for SEO, advertising and affiliate marketing activities.
- * Version:     3.0
+ * Plugin Name: Affiliate Links: WordPress Plugin for Link Cloaking and Link Management
+ * Description: Affiliate Links is a powerful WordPress plugin developed by wecantrack, designed to help you create, cloak, and manage both internal and external links effortlessly.
+ * Version:     3.0.1
  * Author:      Custom4Web
  * Author URI:  https://www.custom4web.com/
  * License:     GPL-2.0+
