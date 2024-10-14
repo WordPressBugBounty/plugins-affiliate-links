@@ -1,4 +1,4 @@
-﻿=== Affiliate Links Lite ===
+﻿=== Affiliate Links: WordPress Plugin for Link Cloaking and Link Management ===
 Contributors: custom4web
 Tags: affiliate, links, affiliate links, deeplink, redirects, gocodes, 301 redirect, 302 redirect, cloaking, link masking, pretty links, redirect, seo, shortlink, url, 301, seo, outbound links, affiliate marketing, affiliate link manager, affiliate tool
 Requires at least: 4.0
