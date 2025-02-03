@@ -52,6 +52,14 @@ class Affiliate_Links_Settings {
                 ),
 			),
 			array(
+				'name'        => 'affiliate_api_key',
+				'title'       => __( 'Affiliate API Key', 'affiliate-links' ),
+				'type'        => 'password',
+				'tab'         => 'general',
+				'default'     => '',
+				'description' => __( 'Enter your Affiliate Links Management API key.', 'affiliate-links' ),
+			),
+			array(
 				'name'        => 'category',
 				'title'       => __( 'Show Category in Link URL', 'affiliate-links' ),
 				'type'        => 'checkbox',
@@ -402,6 +410,53 @@ class Affiliate_Links_Settings {
 			echo '</td>';
 			echo '</tr>';
 		}
+	}
+
+	public function render_password_field($args) {
+		$value = self::get_option($args['name']);
+		?>
+		<div style="position: relative; display: inline-block;">
+			<input
+				type="password"
+				id="<?php echo esc_attr($args['name']); ?>"
+				name="affiliate_links_settings[<?php echo esc_attr($args['name']); ?>]"
+				value="<?php echo esc_attr($value); ?>"
+				placeholder="<?php echo !empty($args['placeholder']) ? esc_attr($args['placeholder']) : ''; ?>"
+				style="padding-right: 30px;"
+			>
+			<span
+				onclick="togglePassword('<?php echo esc_attr($args['name']); ?>')"
+				style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"
+			>
+				<i id="eye_icon_<?php echo esc_attr($args['name']); ?>" class="dashicons dashicons-visibility"></i>
+			</span>
+		</div>
+	
+		<p class="description">
+			<?php echo wp_kses($args['description'], array('strong' => array())); ?>
+		</p>
+	
+		<script type="text/javascript">
+			function togglePassword(fieldId) {
+				var passwordField = document.getElementById(fieldId);
+				var eyeIcon = document.getElementById("eye_icon_" + fieldId);
+				if (passwordField.type === "password") {
+					passwordField.type = "text";
+					eyeIcon.classList.remove("dashicons-visibility");
+					eyeIcon.classList.add("dashicons-hidden");
+				} else {
+					passwordField.type = "password";
+					eyeIcon.classList.remove("dashicons-hidden");
+					eyeIcon.classList.add("dashicons-visibility");
+				}
+			}
+		</script>
+	
+		<style>
+			.dashicons-visibility:before { content: "\f177"; }
+			.dashicons-hidden:before { content: "\f530"; }
+		</style>
+		<?php
 	}
 
     public function get_tab_url( $tab ) {

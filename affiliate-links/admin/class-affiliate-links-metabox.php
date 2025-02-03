@@ -16,10 +16,18 @@ class Affiliate_Links_Metabox {
 		array(
 			'name'              => '_affiliate_links_target',
 			'title'             => 'Link Target URL',
-			'description'       => '* Enter your target URL',
+			'description'       => 'Enter your affiliate URL or make use of wecantrack\'s affiliate link generator and simply add the desired landing page URL (eg. https://www.nike.com) and tick the \'Generate affiliate link\' setting below.',
 			'type'              => 'url',
 			'required'          => 'required',
 			'sanitize_callback' => 'esc_url_raw',
+		),
+		array(
+			'name'        => '_affiliate_links_generate_link',
+			'title'       => 'Generate Affiliate Link',
+			'description' => 'More information about the link generator <a href="https://wecantrack.com/installation/affiliate-link-generator/" target="_blank">here</a>.',
+			'global_name' => 'generate_link',
+			'type'        => 'checkbox',
+			'allow_html'  => true,
 		),
 		array(
 			'name'              => '_affiliate_links_target_two',
@@ -301,33 +309,70 @@ class Affiliate_Links_Metabox {
 	/**
 	 * Save metabox.
 	 */
-	public function save( $post_id ) {
-
-		if ( $this->is_form_skip_save( $post_id ) ) {
+	public function save($post_id) {
+		// Check if we should skip saving
+		if ($this->is_form_skip_save($post_id)) {
 			return $post_id;
 		}
+	
+		// Update all meta fields from standard and embedded fields
+		$all_fields = array_merge($this->get_fields(), $this->get_embedded_metabox_fields());
+		foreach ($all_fields as $field) {
+			update_post_meta($post_id, $field['name'], $this->get_sanitized_value($field));
+		}
+	
+		// Reset stat count if it's set
+		if (isset($_POST['_affiliate_links_stat'])) {
+			$count = (int) sanitize_key($_POST['_affiliate_links_stat']);
+			update_post_meta($post_id, '_affiliate_links_stat', $count);
+		}
+	
+		// Generate affiliate URL if the option is selected
+		if (!empty($_POST['_affiliate_links_generate_link'])) {
+			$landing_page_url = esc_url_raw($_POST['_affiliate_links_target'] ?? '');
+			if ($landing_page_url) {
+				$affiliate_url = $this->generate_affiliate_url($landing_page_url);
+				if ($affiliate_url) {
+					update_post_meta($post_id, '_affiliate_links_target', $affiliate_url);
+				}
+			}
+		}
+	}	
 
-		foreach ( $this->get_fields() as $field ) {
+	private function generate_affiliate_url($landing_page_url) {
+		// Get the API key from the plugin settings
+		$api_key = Affiliate_Links_Settings::get_option( 'affiliate_api_key' );
+	
+		if (!$api_key || !$landing_page_url) {
+			return false;
+		}
+			
+		$api_endpoint = "https://api.wecantrack.com/api/v1/affiliate/generate-link";
+		$payload = json_encode(array('landing_page_url' => $landing_page_url));
+	
+		$response = wp_remote_post("$api_endpoint?api_key=$api_key", array(
+			'method'    => 'POST',
+			'body'      => $payload,
+			'headers'   => array(
+				'Content-Type' => 'application/json',
+			),
+		));
 
-			// Update the meta field.
-			update_post_meta( $post_id, $field['name'], $this->get_sanitized_value( $field ) );
-
+		// Check for errors
+		if (is_wp_error($response)) {
+			return false;
 		}
 
-		foreach ( $this->get_embedded_metabox_fields() as $field ) {
-
-			// Update the meta field.
-			update_post_meta( $post_id, $field['name'], $this->get_sanitized_value( $field ) );
-
+		$body = wp_remote_retrieve_body($response);
+		$data = json_decode($body, true);
+	
+		if (isset($data['links'][0]['affiliate_url'])) {
+			return esc_url_raw($data['links'][0]['affiliate_url']);
 		}
-
-		// reset stat count
-		if ( isset( $_POST['_affiliate_links_stat'] ) ) {
-			$count = (int) sanitize_key( $_POST['_affiliate_links_stat'] );
-			// Update the meta field.
-			update_post_meta( $post_id, '_affiliate_links_stat', $count );
-		}
+	
+		return false;
 	}
+	
 
 	public function get_sanitized_value( $field ) {
 		if ( ! isset( $_POST[ $field['name'] ] ) ) {
@@ -522,7 +567,7 @@ class Affiliate_Links_Metabox {
 
 		$name  = esc_attr( $field['name'] );
 		$title = esc_attr( $field['title'] );
-		$desc  = esc_html( $field['description'] );
+		$desc = !empty( $field['allow_html'] ) ? $field['description'] : esc_html( $field['description'] );
 		$type  = esc_attr( $field['type'] );
 
 		if ( ! empty( Affiliate_Links::$settings[ $field['global_name'] ] ) ) {
@@ -555,6 +600,7 @@ class Affiliate_Links_Metabox {
 	}
 
 	public function render_embed_checkbox_field( $field, $value ) {
+		$descr = ! empty( $field['allow_html'] ) ? $field['description'] : esc_html( $field['description'] );
 		?>
 		<tr>
 			<th>
@@ -570,7 +616,7 @@ class Affiliate_Links_Metabox {
 							value="1"
 							<?php checked( $value, 1 ); ?>
 					>
-					<?php echo esc_html( $field['description'] ); ?>
+					<?php $descr ?>
 				</label>
 			</td>
 		</tr>

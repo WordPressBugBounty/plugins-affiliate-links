@@ -1,9 +1,9 @@
 ﻿=== Affiliate Links: WordPress Plugin for Link Cloaking and Link Management ===
-Contributors: custom4web
-Tags: affiliate, links, affiliate links, deeplink, redirects, gocodes, 301 redirect, 302 redirect, cloaking, link masking, pretty links, redirect, seo, shortlink, url, 301, seo, outbound links, affiliate marketing, affiliate link manager, affiliate tool
+Contributors: custom4web, wecantrack
+Tags: affiliate link manager, affiliate link masking, cloaking, link redirects, pretty links
 Requires at least: 4.0
-Tested up to: 6.6.2
-Stable tag: 3.0.1
+Tested up to: 6.7.1
+Stable tag: 3.1.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -13,11 +13,9 @@ Create any redirect links to any website from your WordPress Admin. Perfect for 
 
 == Affiliate Links 🚀 ==
 
-Affiliate Links is a powerful WordPress plugin developed by [wecantrack](https://wordpress.org/plugins/wecantrack/), designed to help you
-create, cloak, and manage both internal and external links effortlessly. Perfect for affiliate
-marketers, this plugin allows you to generate clean, user-friendly links like 'mysite.com/go/link',
-while also boosting SEO, protecting your earnings, and increasing revenue. With Affiliate Links,
-seamless link management and optimization are just a few clicks away.
+Affiliate Links is a powerful WordPress plugin acquired by wecantrack (Q4 2024), designed to help you create, cloak, and manage both internal and external links effortlessly. Perfect for affiliate
+marketers, this plugin allows you to generate clean, user-friendly links like ‘mysite.com/go/link’, while also boosting SEO, protecting your earnings, and increasing revenue. With Affiliate Links, seamless link management and optimization are just a few clicks away.
+By utilising the Affiliate Links plugin, your clickouts will automatically be tracked on server-side by our standard wecantrack WP plugin. This will ensure the highest attribution coverage possible, since server-side events cannot get blocked by your website visitors.
 
 = Why You Need Affiliate Links Plugin: =
 * 🔍 Boost SEO: Cloak affiliate URLs to appear more trustworthy.
@@ -29,14 +27,14 @@ seamless link management and optimization are just a few clicks away.
 = Key Features ✔ =
 * 📊 Link Click Stats: Track each click with detailed insights, including browser type, language,
 and more.
-* 🔄 Conditional Redirects: Personalize redirects based on visitor behavior, such as language
+* 🔄 Conditional Redirects: Personalise redirects based on visitor behavior, such as language
 or platform.
 * 🔀 301/302/307 HTTP Redirects: Choose from multiple redirect options to fit your needs.
 * 👀 Nofollow & Noindex: Control link visibility with nofollow and noindex options.
-* 🗂 Link Categories & Slugs: Organize links into categories and include category slugs in
+* 🗂 Link Categories & Slugs: Organise links into categories and include category slugs in
 URLs if desired.
 * ⚙️ HTML & Shortcode Generator: Easily embed links using the built-in generator.
-* 🛠 Widgets: Display recent and popular affiliate links with customizable categories and
+* 🛠 Widgets: Display recent and popular affiliate links with customisable categories and
 counts.
 
 == Pro Features 💪 ==
@@ -51,25 +49,25 @@ traffic and affiliate conversion data in one dataset, keeping you updated at all
 * 💾 [Zapier Integration](https://wecantrack.com/zapier-affiliate-conversion-integration/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Integrate Affiliate Conversions Across 6000 Platforms With Zapier
 
 == Ad Network Integrations: ==
-* 📈 [Google Ads Integration](https://wecantrack.com/affiliate-sales-in-google-ads/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Optimize your Google Ads campaigns by leveraging your
+* 📈 [Google Ads Integration](https://wecantrack.com/affiliate-sales-in-google-ads/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Optimise your Google Ads campaigns by leveraging your
 conversion data, automating bid adjustments, and setting up relevant audiences to boost
 ROAS.
 * 🔍 [Microsoft Ads Integration](https://wecantrack.com/microsoft-ads-affiliate-conversion-tracking/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Integrate your affiliate conversion data with Microsoft Ads to
-optimize campaigns and audiences, enhancing your return on ad spend.
+optimise campaigns and audiences, enhancing your return on ad spend.
 * 🎯 [Facebook Ads Integration](https://wecantrack.com/affiliate-conversion-tracking-in-facebook/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Feed conversion data to the Facebook Pixel to make your
 campaigns profitable, building relevant audiences and utilizing Facebook’s AI to target the right
 users.
-* 🎵 [TikTok Ads Integration](https://wecantrack.com/affiliate-conversion-tracking-tiktok-ads/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Optimize your TikTok campaigns based on ROAS or CPAs by
+* 🎵 [TikTok Ads Integration](https://wecantrack.com/affiliate-conversion-tracking-tiktok-ads/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Optimise your TikTok campaigns based on ROAS or CPAs by
 integrating all your affiliate sale and lead conversion data.
-* 📌 [Pinterest Ads Integration](https://wecantrack.com/affiliate-sales-tracking-in-pinterest-ads/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Use your affiliate conversion data to optimize Pinterest Ads
+* 📌 [Pinterest Ads Integration](https://wecantrack.com/affiliate-sales-tracking-in-pinterest-ads/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Use your affiliate conversion data to optimise Pinterest Ads
 campaigns, fully utilizing their machine learning capabilities.
-* 🛡 [Reddit Ads Integration](https://wecantrack.com/affiliate-conversion-tracking-in-reddit-ads/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Analyze and optimize your Reddit Ads campaigns by integrating
+* 🛡 [Reddit Ads Integration](https://wecantrack.com/affiliate-conversion-tracking-in-reddit-ads/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Analyse and optimise your Reddit Ads campaigns by integrating
 your affiliate conversion data to boost ad revenue.
 * 👻 [Snapchat Ads Integration](https://wecantrack.com/affiliate-sales-tracking-in-snapchat-ads/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Track and integrate your affiliate conversion data in Snapchat
-Ads to automatically optimize your campaigns based on purchase events.
-* 🐦 [X Ads Integration](https://wecantrack.com/affiliate-conversion-tracking-in-twitter-ads/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Optimize your native ad campaigns with X Ads by integrating your
+Ads to automatically optimise your campaigns based on purchase events.
+* 🐦 [X Ads Integration](https://wecantrack.com/affiliate-conversion-tracking-in-twitter-ads/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Optimise your native ad campaigns with X Ads by integrating your
 affiliate sale and lead conversion data.
-* 🌍 [Outbrain Integration](https://wecantrack.com/affiliate-sales-tracking-in-outbrain/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Properly analyze and optimize your Outbrain native ad campaigns
+* 🌍 [Outbrain Integration](https://wecantrack.com/affiliate-sales-tracking-in-outbrain/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Properly analyse and optimise your Outbrain native ad campaigns
 with integrated affiliate conversion data.
 
 == Performance Reports: ==
@@ -78,17 +76,17 @@ current results with previous time ranges.
 * 🌐 Network Performance: Get a quick overview of your affiliate network accounts' total
 performance through our network report.
 * 📝 Content Performance: Discover which landing and click pages generate the most clicks,
-conversions, and commissions, allowing you to optimize content based on real data.
-* 🚦 Traffic Source Performance: Analyze the performance of your traffic sources, helping you
+conversions, and commissions, allowing you to optimise content based on real data.
+* 🚦 Traffic Source Performance: Analyse the performance of your traffic sources, helping you
 employ an omnichannel approach to avoid over-reliance on one source.
-* 📊 Campaign Performance: Accurately analyze your ad campaigns, ensuring your budget
-allocation maximizes profits—no more guesswork!
+* 📊 Campaign Performance: Accurately analyse your ad campaigns, ensuring your budget
+allocation maximises profits—no more guesswork!
 * 📝 Transaction Report: Access detailed transaction information, including subid parameters,
 status, and product details for certain partners.
 
 Get Started Today! 🌟
 
-With Affiliate Links, managing and optimizing your affiliate links has never been easier. Whether
+With Affiliate Links, managing and optimising your affiliate links has never been easier. Whether
 you want to clean up messy URLs, protect your earnings, or boost your SEO, this plugin offers a
 comprehensive solution for all your link management needs.
 
@@ -114,17 +112,21 @@ comprehensive solution for all your link management needs.
 == Frequently Asked Questions ==
 = Can I use plugin without pretty permalinks enabled? =
 
-Yes, but your affiliate links would look have GET parameter like other post types.
+Yes, but your affiliate links would have GET parameter like other post types.
 
 = Can I change the 'go' word in my links URL? =
 
-Yes, just visit plugin setting page and enter your own word.
+Yes, just visit plugin setting page and adjust the subdirectory according to your preference.
 
 = What is Shortcode/HTML generator? =
 
-It’s a simple WYSIWYG tool for embeping your link into the site content. Just select options you need and copy&paste to the post content.
+It’s a simple WYSIWYG tool for embedding your link into the site content. Just select options you need and copy&paste to the post content.
 
 == Changelog ==
+= 3.1.0 - 3rd February 2025 =
+ * Security fixes
+ * Added new feature: ability to generate affiliate links via We Can Track
+
 = 3.0.1 =
 Rebranded plugin. Updated description.
 
@@ -132,7 +134,7 @@ Rebranded plugin. Updated description.
 Added advanced functionality: reports for links, the ability to export and import links, the ability to replace links in the database, display the link in the iframe, setting the custom target url according to conditions such as checking the browser, OS, platform or language of user. Added widgets to show the most popular and recent links.
 
 = 2.9 =
-Improved internationalization. Sanitized and escaped data. Improved file protection. Made SQL calls safety.
+Improved internationalization. Sanitised and escaped data. Improved file protection. Made SQL calls safety.
 
 = 2.8 =
 Tested up to WP version 6.6.1 
