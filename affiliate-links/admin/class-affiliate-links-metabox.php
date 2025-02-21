@@ -114,6 +114,10 @@ class Affiliate_Links_Metabox {
 	 */
 	public function hide_yoast_columns( $columns ) {
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return $columns;
+		}
+
 		unset( $columns['wpseo-score'] );
 		unset( $columns['wpseo-title'] );
 		unset( $columns['wpseo-metadesc'] );

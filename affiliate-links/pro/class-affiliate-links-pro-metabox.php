@@ -125,15 +125,33 @@ class Affiliate_Links_Pro_Metabox extends Affiliate_Links_Metabox {
 	}
 
 
+	/**
+	 * Retrieve the browser links data stored in post meta.
+	 * The data is stored as JSON, so we decode it safely here.
+	 *
+	 * @param string|int $id Optional post ID.
+	 *
+	 * @return array Decoded link data or empty array.
+	 */
 	public function get_browser_links( $id = '' ) {
 		global $post;
 		$post_id = $id ? $id : $post->ID;
-		$data    = get_post_meta( $post_id, $this->browser_link_meta_key );
-		if ( count( $data ) ) {
-			$data = maybe_unserialize( current( $data ) );
+
+		// Retrieve raw JSON from post meta
+		$data = get_post_meta( $post_id, $this->browser_link_meta_key, true );
+
+		if ( empty( $data ) ) {
+			return array();
 		}
 
-		return $data;
+		// Decode JSON
+		$decoded = json_decode( $data, true );
+
+		if ( json_last_error() === JSON_ERROR_NONE && is_array( $decoded ) ) {
+			return $decoded;
+		}
+
+		return array(); // Return empty if JSON is invalid
 	}
 
 

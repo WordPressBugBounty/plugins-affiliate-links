@@ -77,6 +77,7 @@ class Affiliate_Links_PRO {
         wp_localize_script( 'affiliate-links-pro', 'aLinkTargetUrl', array(
             'ajax_url' => admin_url( 'admin-ajax.php' ),
             'action'   => 'af_link_additional_settings',
+            'security' => wp_create_nonce( 'af_link_additional_settings' ),
         ) );
 
         wp_enqueue_script( 'affiliate-links-pro-repeater', AFFILIATE_LINKS_PLUGIN_URL . 'pro/js/jquery.repeater.js', array( 'jquery' ), '1.6', TRUE );
@@ -85,8 +86,8 @@ class Affiliate_Links_PRO {
     }
 
     public function get_additional_settings() {
-        if ( isset( $_REQUEST[ 'name' ] ) && FALSE === empty( $_REQUEST[ 'name' ] ) ) {
-            foreach ( $this->custom_target_url_metabox->get_custom_target_url_values( $_REQUEST[ 'name' ] ) as $value => $label ) {
+        if ( isset( $_REQUEST['name'] ) && ! empty( $_REQUEST['name'] ) && check_ajax_referer( 'af_link_additional_settings', 'security' ) ) {
+            foreach ( $this->custom_target_url_metabox->get_custom_target_url_values( sanitize_text_field( wp_unslash( $_REQUEST['name'] ) ) ) as $value => $label ) {
                 ?>
                 <option value="<?php echo esc_attr( $value ) ?>"><?php echo esc_html( $label ) ?></option>
                 <?php

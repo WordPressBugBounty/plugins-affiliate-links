@@ -340,9 +340,9 @@ class Affiliate_Links_Settings {
      */
     public function flush_rules() {
 
-        if ( isset( $_GET['settings-updated'] ) ) {
-            flush_rewrite_rules();
-        }
+		if ( current_user_can( 'manage_options' ) && isset( $_GET['settings-updated'] ) ) {
+			flush_rewrite_rules();
+		}
 
     }
 

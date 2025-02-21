@@ -3,6 +3,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
+
+// Include pluggable.php to ensure wp_get_current_user() is available
+if ( ! function_exists( 'wp_get_current_user' ) ) {
+	require_once ABSPATH . 'wp-includes/pluggable.php';
+}
+
 include_once AFFILIATE_LINKS_PRO_PLUGIN_DIR . '/' . 'class-affiliate-links-pro-base.php';
 
 /**
@@ -30,7 +36,7 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 			'update_activity',
 		) );
 
-		if ( is_admin() ) {
+		if ( current_user_can( 'manage_options' ) ) {
 			add_action( 'admin_menu', array( $this, 'add_menu' ) );
 			add_action( 'current_screen', array( $this, 'is_screen' ) );
 			add_action( 'af_link_report_tab_' . $this->get_current_tab(), array(

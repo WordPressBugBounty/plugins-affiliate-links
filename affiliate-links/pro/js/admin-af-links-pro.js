@@ -28,7 +28,8 @@
             var self = this;
             var data = {
                 'action': aLinkTargetUrl.action,
-                'name': $(this).find('option:selected').val()
+                'name': $(this).find('option:selected').val(),
+                'security': aLinkTargetUrl.security,
             };
             $.post(aLinkTargetUrl.ajax_url, data, function (response) {
                 $(self)

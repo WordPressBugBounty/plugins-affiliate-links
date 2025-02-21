@@ -15,7 +15,7 @@ class Affiliate_Links_Pro_Import_Export extends Affiliate_Links_Pro_Base {
         parent::__construct();
         add_action( 'init', array( $this, 'maybe_export' ) );
         add_action( 'init', array( $this, 'maybe_import' ) );
-        if ( is_admin() ) {
+        if ( current_user_can( 'manage_options' ) ) {
             add_action( 'admin_menu', array( $this, 'add_menu' ) );
         }
     }
@@ -31,12 +31,13 @@ class Affiliate_Links_Pro_Import_Export extends Affiliate_Links_Pro_Base {
     }
 
     public function maybe_import() {
-        if ( isset( $_POST[ 'file_nonce' ] ) && isset( $_FILES[ 'file' ] ) ) {
+        if ( current_user_can( 'manage_options' ) && isset( $_POST['file_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['file_nonce'] ) ), 'import' ) && isset( $_FILES['file'] ) ) {
             $this->import();
         }
     }
+
     public function maybe_export() {
-        if ( isset( $_POST[ 'export_nonce' ] ) ) {
+        if ( current_user_can( 'manage_options' ) && isset( $_POST['export_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['export_nonce'] ) ), 'export' ) ) {
             $this->export();
         }
     }

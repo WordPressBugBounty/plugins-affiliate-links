@@ -3,6 +3,12 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
+
+// Include pluggable.php to ensure wp_get_current_user() is available
+if ( ! function_exists( 'wp_get_current_user' ) ) {
+	require_once ABSPATH . 'wp-includes/pluggable.php';
+}
+
 /**
  * The Affiliate Links Core Plugin Class.
  */
@@ -30,7 +36,7 @@ class Affiliate_Links {
 		require_once AFFILIATE_LINKS_PLUGIN_DIR . 'admin/class-affiliate-links-settings.php';
 		new Affiliate_Links_Settings();
 
-		if ( is_admin() ) {
+		if ( current_user_can( 'manage_options' ) ) {
 			require_once AFFILIATE_LINKS_PLUGIN_DIR . 'admin/class-affiliate-links-metabox.php';
 			require_once AFFILIATE_LINKS_PLUGIN_DIR . 'admin/class-affiliate-links-buttons.php';
 		}

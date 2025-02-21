@@ -143,7 +143,8 @@ $main_target_url   = current( get_post_meta( $post->ID, '_affiliate_links_target
                     var self = this;
                     var data = {
                         'action': aLinkTargetUrl.action,
-                        'name': $(this).find('option:selected').val()
+                        'name': $(this).find('option:selected').val(),
+                        'security': aLinkTargetUrl.security,
                     };
                     $.post(aLinkTargetUrl.ajax_url, data, function (response) {
                         $(self)
