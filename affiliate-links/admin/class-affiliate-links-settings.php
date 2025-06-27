@@ -20,16 +20,25 @@ class Affiliate_Links_Settings {
 	public static $tabs;
 
     /**
+     * Flag to track if translations have been applied.
+     */
+    private static $translations_applied = false;
+
+    /**
      * Hook into the appropriate actions when the class is constructed.
      */
     public function __construct() {
 
+        // Initialize fields without translations
         self::$fields = self::get_default_fields();
 		self::$tabs   = self::get_default_tabs();
 
         add_action( 'admin_menu',  array( $this, 'add_admin_menu' ) );
         add_action( 'admin_init', array( $this, 'settings_init' ) );
         add_filter( 'plugin_action_links_' . AFFILIATE_LINKS_BASENAME, array( $this, 'add_action_links' ) );
+
+        // Apply translations after plugins_loaded
+        add_action( 'init', array( $this, 'apply_field_translations' ), 5 );
 
     }
 
@@ -40,59 +49,67 @@ class Affiliate_Links_Settings {
 		return array(
 			array(
 				'name'        => 'slug',
-				'title'       => __( 'Affiliate Link Base', 'affiliate-links' ),
+				'title'       => 'Affiliate Link Base',
+				'title_i18n'  => true,
 				'type'        => 'text',
 				'tab'         => 'general',
 				'default'     => 'go',
-				'description' => sprintf(
-                    /* translators: 1: Open tag strong 2: Close tag strong */
-                    __( 'You can change the default base part \'%1$s/go/%2$s\' of your redirect link to something else', 'affiliate-links' ),
-                    '<strong>',
-                    '</strong>'
-                ),
+				'description' => 'You can change the default base part \'%1$s/go/%2$s\' of your redirect link to something else',
+				'description_i18n' => true,
+				'description_has_sprintf' => true,
 			),
 			array(
 				'name'        => 'affiliate_api_key',
-				'title'       => __( 'Affiliate API Key', 'affiliate-links' ),
+				'title'       => 'Wecantrack API Key',
+				'title_i18n'  => true,
 				'type'        => 'password',
 				'tab'         => 'general',
 				'default'     => '',
-				'description' => __( 'Enter your Affiliate Links Management API key.', 'affiliate-links' ),
+				'description' => 'Enter your wecantrack API key to utilise our affiliate link generator.',
+				'description_i18n' => true,
 			),
 			array(
 				'name'        => 'category',
-				'title'       => __( 'Show Category in Link URL', 'affiliate-links' ),
+				'title'       => 'Show Category in Link URL',
+				'title_i18n'  => true,
 				'type'        => 'checkbox',
 				'tab'         => 'general',
-				'description' => __( 'Show the link category slug in the affiliate link URL', 'affiliate-links' ),
+				'description' => 'Show the link category slug in the affiliate link URL',
+				'description_i18n' => true,
 			),
 
 			array(
 				'name'        => 'default',
-				'title'       => __( 'Default URL for Redirect', 'affiliate-links' ),
+				'title'       => 'Default URL for Redirect',
+				'title_i18n'  => true,
 				'type'        => 'text',
 				'tab'         => '',
 				'default'     => get_home_url(),
-				'description' => __( 'Enter the default URL for redirect if correct URL not set', 'affiliate-links' ),
+				'description' => 'Enter the default URL for redirect if correct URL not set',
+				'description_i18n' => true,
 			),
 			array(
 				'name'        => 'nofollow',
-				'title'       => __( 'Nofollow Affiliate Links', 'affiliate-links' ),
+				'title'       => 'Nofollow Affiliate Links',
+				'title_i18n'  => true,
 				'type'        => 'checkbox',
 				'tab'         => 'defaults',
-				'description' => __( 'Add "X-Robots-Tag: noindex, nofollow" to HTTP headers', 'affiliate-links' ),
+				'description' => 'Add "X-Robots-Tag: noindex, nofollow" to HTTP headers',
+				'description_i18n' => true,
 			),
 			array(
 				'name'        => 'redirect',
-				'title'       => __( 'Redirect Type', 'affiliate-links' ),
+				'title'       => 'Redirect Type',
+				'title_i18n'  => true,
 				'type'        => 'radio',
 				'tab'         => 'defaults',
 				'default'     => '301',
-				'description' => __( 'Set redirection HTTP status code', 'affiliate-links' ),
+				'description' => 'Set redirection HTTP status code',
+				'description_i18n' => true,
 				'values'      => array(
-					'301' => __( '301 Moved Permanently', 'affiliate-links' ),
-					'302' => __( '302 Found', 'affiliate-links' ),
-					'307' => __( '307 Temporary Redirect', 'affiliate-links' ),
+					'301' => array( 'label' => '301 Moved Permanently', 'i18n' => true ),
+					'302' => array( 'label' => '302 Found', 'i18n' => true ),
+					'307' => array( 'label' => '307 Temporary Redirect', 'i18n' => true ),
 				),
 			),
 
@@ -105,6 +122,47 @@ class Affiliate_Links_Settings {
 			'defaults' => 'Defaults',
 		);
 	}
+
+    /**
+     * Apply translations to fields after text domain is loaded.
+     */
+    public function apply_field_translations() {
+        if ( self::$translations_applied ) {
+            return;
+        }
+
+        foreach ( self::$fields as &$field ) {
+            // Translate title if needed
+            if ( ! empty( $field['title_i18n'] ) && $field['title_i18n'] === true ) {
+                $field['title'] = __( $field['title'], 'affiliate-links' );
+            }
+
+            // Translate description if needed
+            if ( ! empty( $field['description_i18n'] ) && $field['description_i18n'] === true ) {
+                if ( ! empty( $field['description_has_sprintf'] ) ) {
+                    $field['description'] = sprintf(
+                        /* translators: 1: Open tag strong 2: Close tag strong */
+                        __( $field['description'], 'affiliate-links' ),
+                        '<strong>',
+                        '</strong>'
+                    );
+                } else {
+                    $field['description'] = __( $field['description'], 'affiliate-links' );
+                }
+            }
+
+            // Translate radio/select values if needed
+            if ( ! empty( $field['values'] ) && is_array( $field['values'] ) ) {
+                foreach ( $field['values'] as $key => &$value ) {
+                    if ( is_array( $value ) && ! empty( $value['i18n'] ) && $value['i18n'] === true ) {
+                        $field['values'][$key] = __( $value['label'], 'affiliate-links' );
+                    }
+                }
+            }
+        }
+
+        self::$translations_applied = true;
+    }
 
     public static function get_field( $field_name ) {
 		foreach ( self::$fields as $field ) {
@@ -127,6 +185,16 @@ class Affiliate_Links_Settings {
 	}
 
     public static function add_field( $field ) {
+		// If translations have already been applied and the field contains translatable text,
+		// apply translations immediately
+		if ( self::$translations_applied ) {
+			if ( ! empty( $field['title_i18n'] ) && $field['title_i18n'] === true ) {
+				$field['title'] = __( $field['title'], 'affiliate-links' );
+			}
+			if ( ! empty( $field['description_i18n'] ) && $field['description_i18n'] === true ) {
+				$field['description'] = __( $field['description'], 'affiliate-links' );
+			}
+		}
 		array_push( self::$fields, $field );
 	}
 
@@ -192,7 +260,7 @@ class Affiliate_Links_Settings {
 			if ( isset( $field['tab'] ) && $current_tab == $field['tab'] ) {
 				add_settings_field(
 					$field['name'],
-					__( $field['title'], 'affiliate-links' ),
+					$field['title'], // Already translated in apply_field_translations()
 					array( $this, 'render_' . $field['type'] . '_field' ),
 					self::SETTINGS_PAGE,
 					self::SETTINGS_PAGE . '_' . $field['tab'],
@@ -316,7 +384,7 @@ class Affiliate_Links_Settings {
 
                     <h2 class="nav-tab-wrapper" id="af_links-nav-tabs">
 						<?php foreach ( self::$tabs as $name => $label ): ?>
-                            <a href="<?php echo $this->get_tab_url( $name ) ?>"
+                            <a href="<?php echo esc_url( $this->get_tab_url( $name ) ); ?>"
                                class="nav-tab <?php echo( $current_tab == $name ? 'nav-tab-active' : '' ) ?>">
 								<?php echo esc_html( $label ); ?>
                             </a>
@@ -328,7 +396,7 @@ class Affiliate_Links_Settings {
                     <div class="af_links-nav-tab active" id="af_links_general">
 						<?php $this->do_settings_sections( self::SETTINGS_PAGE ); ?>
                     </div>
-                    <input type="hidden" name="tab" value="<?php echo $this->get_current_tab(); ?>">
+                    <input type="hidden" name="tab" value="<?php echo esc_attr( $this->get_current_tab() ); ?>">
                 </form>
             </div>
         </div>
@@ -340,6 +408,7 @@ class Affiliate_Links_Settings {
      */
     public function flush_rules() {
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Just checking if settings were updated
 		if ( current_user_can( 'manage_options' ) && isset( $_GET['settings-updated'] ) ) {
 			flush_rewrite_rules();
 		}
@@ -350,13 +419,17 @@ class Affiliate_Links_Settings {
 	 * Retrieve current tab
 	 */
 	public function get_current_tab() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Tab navigation doesn't need nonce
 		if ( ! empty( $_REQUEST['tab'] ) ) {
-			$_tab = (string) $_REQUEST['tab'];
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Tab value is validated against whitelist below
+			$_tab = sanitize_text_field( wp_unslash( $_REQUEST['tab'] ) );
 
 			return $_tab;
 		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Tab navigation doesn't need nonce
 		if ( isset( $_GET['tab'] ) ) {
-			$_tab = (string) $_GET['tab'];
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Tab value is validated against whitelist below
+			$_tab = sanitize_text_field( wp_unslash( $_GET['tab'] ) );
 			if ( isset( self::$tabs[ $_tab ] ) ) {
 				return $_tab;
 			}
@@ -397,12 +470,12 @@ class Affiliate_Links_Settings {
 				$class = ' class="' . esc_attr( $field['args']['class'] ) . '"';
 			}
 
-			echo "<tr{$class}>";
+			printf( '<tr%s>', $class );
 
 			if ( ! empty( $field['args']['label_for'] ) ) {
-				echo '<th scope="row"><label for="' . esc_attr( $field['args']['label_for'] ) . '">' . $field['title'] . '</label></th>';
+				echo '<th scope="row"><label for="' . esc_attr( $field['args']['label_for'] ) . '">' . esc_html( $field['title'] ) . '</label></th>';
 			} else {
-				echo '<th scope="row">' . $field['title'] . '</th>';
+				echo '<th scope="row">' . esc_html( $field['title'] ) . '</th>';
 			}
 
 			echo '<td>';

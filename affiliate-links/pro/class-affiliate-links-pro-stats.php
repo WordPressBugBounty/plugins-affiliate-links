@@ -70,7 +70,8 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 		$range = $this->get_date_by_range();
 
 		if ( count( $range ) && $this->get_request_var( 'link_id' ) ) {
-			$where = 'link_id=' . $this->get_request_var( 'link_id' )
+			$link_id = intval( $this->get_request_var( 'link_id' ) );
+			$where = 'link_id=' . $link_id
 			         . " AND created_date >= '{$range['start_date']}'"
 			         . " AND created_date <= '{$range['end_date']}'";
 
@@ -89,24 +90,31 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 
 		switch ( TRUE ) {
 			case $this->get_current_range() == 'last_month':
-				$data['start_date'] = date( 'Y-m-d', strtotime( 'first day of previous month' ) );
-				$data['end_date']   = date( 'Y-m-d', strtotime( 'first day of this month' ) );
+				$data['start_date'] = gmdate( 'Y-m-d', strtotime( 'first day of previous month' ) );
+				$data['end_date']   = gmdate( 'Y-m-d', strtotime( 'first day of this month' ) );
 				break;
 			case $this->get_current_range() == 'month':
-				$data['start_date'] = date( 'Y-m-d', strtotime( 'first day of this month' ) );
+				$data['start_date'] = gmdate( 'Y-m-d', strtotime( 'first day of this month' ) );
 				$data['end_date']   = current_time( 'mysql' );
 				break;
 			case $this->get_current_range() == 'week':
-				$data['start_date'] = date( 'Y-m-d', strtotime( ' -1 week' ) );
+				$data['start_date'] = gmdate( 'Y-m-d', strtotime( ' -1 week' ) );
 				$data['end_date']   = current_time( 'mysql' );
 				break;
 			case $this->get_current_range() == 'day':
-				$data['start_date'] = date( 'Y-m-d', strtotime( ' -1 day' ) );
+				$data['start_date'] = gmdate( 'Y-m-d', strtotime( ' -1 day' ) );
 				$data['end_date']   = current_time( 'mysql' );
 				break;
 			case ( $this->get_current_range() == 'custom' && $this->get_request_var( 'start_date' ) && $this->get_request_var( 'end_date' ) ):
-				$data['start_date'] = $this->get_request_var( 'start_date' ) . ' 00:00:00';
-				$data['end_date']   = $this->get_request_var( 'end_date' ) . ' 23:59:59';
+				// Sanitize date inputs to prevent SQL injection
+				$start_date = sanitize_text_field( $this->get_request_var( 'start_date' ) );
+				$end_date = sanitize_text_field( $this->get_request_var( 'end_date' ) );
+				
+				// Validate date format (YYYY-MM-DD)
+				if ( preg_match( '/^\d{4}-\d{2}-\d{2}$/', $start_date ) && preg_match( '/^\d{4}-\d{2}-\d{2}$/', $end_date ) ) {
+					$data['start_date'] = $start_date . ' 00:00:00';
+					$data['end_date']   = $end_date . ' 23:59:59';
+				}
 				break;
 		}
 
@@ -125,14 +133,14 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 			$period = array();
 
 			$begin = new DateTime( $range['start_date'] );
-			$end   = new DateTime( date( "Y-m-d", strtotime( "+1 day", strtotime( $range['end_date'] ) ) ) );
+			$end   = new DateTime( gmdate( "Y-m-d", strtotime( "+1 day", strtotime( $range['end_date'] ) ) ) );
 			while ( $begin < $end ) {
 				$period[] = $begin->format( 'Y-m-d' );
 				$begin->modify( '+1 day' );
 			}
 
 			foreach ( $items as $item ) {
-				$date                      = date( 'Y-m-d', strtotime( $item['created_date'] ) );
+				$date                      = gmdate( 'Y-m-d', strtotime( $item['created_date'] ) );
 				$this->chart_data[ $date ] = array( $date, $item['hits'] );
 			}
 
@@ -158,6 +166,7 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 
 		do_action( 'af_link_load_activity_expression', $expression );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is built from controlled inputs
 		return $this->wpdb->get_results( $expression, $output );
 	}
 
@@ -244,10 +253,13 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 
 				if( strpos( $referer, $adminurl ) !== false ) {
 					global $wpdb;
-					$wpdb->query("TRUNCATE TABLE " . self::get_table());
+					// Use direct query for TRUNCATE as it doesn't support placeholders
+					$table_name = self::get_table();
+					// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Table name is safe from get_table()
+					$wpdb->query( "TRUNCATE TABLE $table_name" );
 
 					if ( $wpdb->last_error ) {
-						print $wpdb->last_error;
+						echo esc_html( $wpdb->last_error );
 					} else {
 						esc_html_e( 'All stats data was deleted', 'affiliate-links' );
 					}
@@ -298,7 +310,7 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 		$item['created_date']     = current_time( 'mysql' );
 		$item['created_date_gmt'] = current_time( 'mysql', 1 );
 		$item['link_id']          = $post_id;
-		$item['referer']          = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : __( 'Direct Entry', 'affiliate-links' );
+		$item['referer']          = isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : __( 'Direct Entry', 'affiliate-links' );
 
 		$this->wpdb->insert( self::get_table(), $item );
 	}
@@ -383,7 +395,7 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 	public function get_link_browsers_data() {
 		$data    = array();
 		$range   = $this->get_date_by_range();
-		$link_id = $this->get_request_var( 'link_id' );
+		$link_id = intval( $this->get_request_var( 'link_id' ) );
 
 		if ( ! $link_id ) {
 			return $data;
@@ -399,16 +411,25 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 	public function get_link_data( $field ) {
 		$data    = array();
 		$range   = $this->get_date_by_range();
-		$link_id = $this->get_request_var( 'link_id' );
+		$link_id = intval( $this->get_request_var( 'link_id' ) );
 
 		if ( ! $link_id ) {
 			return $data;
 		}
+		
+		// Sanitize field name to prevent SQL injection
+		// Remove everything except letters, numbers and underscores
+		$field = preg_replace( '/[^a-zA-Z0-9_]/', '', $field );
+		
+		// Extra check: field should not be empty after sanitization
+		if ( empty( $field ) ) {
+			return $data;
+		}
 
 		return $this->load_activity( array(
-			'SELECT'   => "$field, count({$field}) as hits",
+			'SELECT'   => "`{$field}`, count(`{$field}`) as hits",
 			'WHERE'    => "link_id='{$link_id}' AND created_date >= '{$range['start_date']}' AND created_date <= '{$range['end_date']}'",
-			'GROUP BY' => $field,
+			'GROUP BY' => "`{$field}`",
 		), ARRAY_A );
 	}
 

@@ -326,14 +326,18 @@ class Affiliate_Links_Metabox {
 		}
 	
 		// Reset stat count if it's set
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce already verified in is_form_skip_save()
 		if (isset($_POST['_affiliate_links_stat'])) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce already verified in is_form_skip_save()
 			$count = (int) sanitize_key($_POST['_affiliate_links_stat']);
 			update_post_meta($post_id, '_affiliate_links_stat', $count);
 		}
 	
 		// Generate affiliate URL if the option is selected
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce already verified in is_form_skip_save()
 		if (!empty($_POST['_affiliate_links_generate_link'])) {
-			$landing_page_url = esc_url_raw($_POST['_affiliate_links_target'] ?? '');
+			// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Nonce already verified in is_form_skip_save()
+			$landing_page_url = esc_url_raw(wp_unslash($_POST['_affiliate_links_target'] ?? ''));
 			if ($landing_page_url) {
 				$affiliate_url = $this->generate_affiliate_url($landing_page_url);
 				if ($affiliate_url) {
@@ -379,12 +383,14 @@ class Affiliate_Links_Metabox {
 	
 
 	public function get_sanitized_value( $field ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Called from save() where nonce is already verified
 		if ( ! isset( $_POST[ $field['name'] ] ) ) {
 			return '';
 		}
 		$sanitize_callback = ( isset( $field['sanitize_callback'] ) ) ? $field['sanitize_callback'] : 'sanitize_text_field';
 
-		return call_user_func( $sanitize_callback, $_POST[ $field['name'] ] );
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Called from save() where nonce is already verified, sanitization happens via callback
+		return call_user_func( $sanitize_callback, wp_unslash( $_POST[ $field['name'] ] ) );
 	}
 
 	public function get_fields() {
@@ -497,7 +503,7 @@ class Affiliate_Links_Metabox {
 				echo '</table>';
 				load_template( __DIR__ . '/partials/metabox-embed.php' );
 			} else {
-				echo '<p>' . esc_html__( 'Before you can use this link you need to publish it.' ) . '</p>';
+				echo '<p>' . esc_html__( 'Before you can use this link you need to publish it.', 'affiliate-links' ) . '</p>';
 			}
 		}
 	}
@@ -544,21 +550,21 @@ class Affiliate_Links_Metabox {
 		?>
 		<tr>
 			<th>
-				<label for="<?php echo $name; ?>" class="<?php echo $name; ?>_label"><?php echo $title; ?></label>
+				<label for="<?php echo esc_attr( $name ); ?>" class="<?php echo esc_attr( $name ); ?>_label"><?php echo esc_html( $title ); ?></label>
 			</th>
 			<td>
 				<input
-					type="<?php echo $type; ?>"
-					id="<?php echo $name; ?>"
-					name="<?php echo $name; ?>"
-					class="<?php echo $name; ?>_field"
+					type="<?php echo esc_attr( $type ); ?>"
+					id="<?php echo esc_attr( $name ); ?>"
+					name="<?php echo esc_attr( $name ); ?>"
+					class="<?php echo esc_attr( $name ); ?>_field"
 					<?php
 					if ( ! empty( $field['required'] ) ) {
-						echo $field['required']; }
+						echo esc_attr( $field['required'] ); }
 					?>
 					value="<?php echo esc_attr( $value ); ?>"
 				>
-				<p class="description"><?php echo $desc; ?></p>
+				<p class="description"><?php echo wp_kses_post( $desc ); ?></p>
 			</td>
 		</tr>
 		<?php
@@ -580,23 +586,24 @@ class Affiliate_Links_Metabox {
 			$default_val = 0;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Just checking if we're in edit mode
 		$checked_value = ( isset( $_GET['action'] ) && 'edit' == $_GET['action'] ) ? $value : $default_val;
 		?>
 		<tr>
 			<th>
-				<label for="<?php echo $name; ?>" class="<?php echo $name; ?>_label"><?php echo $title; ?></label>
+				<label for="<?php echo esc_attr( $name ); ?>" class="<?php echo esc_attr( $name ); ?>_label"><?php echo esc_html( $title ); ?></label>
 			</th>
 			<td>
 				<input
-					type="<?php echo $type; ?>"
-					id="<?php echo $name; ?>"
-					name="<?php echo $name; ?>"
-					class="<?php echo $name; ?>_field"
+					type="<?php echo esc_attr( $type ); ?>"
+					id="<?php echo esc_attr( $name ); ?>"
+					name="<?php echo esc_attr( $name ); ?>"
+					class="<?php echo esc_attr( $name ); ?>_field"
 					value="1"
 					<?php checked( $checked_value, 1 ); ?>
 				>
-				<label for="<?php echo $name; ?>">
-					<?php echo $desc; ?>
+				<label for="<?php echo esc_attr( $name ); ?>">
+					<?php echo wp_kses_post( $desc ); ?>
 				</label>
 			</td>
 		</tr>
@@ -620,7 +627,7 @@ class Affiliate_Links_Metabox {
 							value="1"
 							<?php checked( $value, 1 ); ?>
 					>
-					<?php $descr ?>
+					<?php echo esc_html( $descr ); ?>
 				</label>
 			</td>
 		</tr>
@@ -668,11 +675,11 @@ class Affiliate_Links_Metabox {
 		$checked_value = empty( $value ) ? $default_val : $value;
 		?>
 		<tr>
-			<th><?php echo $title; ?></th>
+			<th><?php echo esc_html( $title ); ?></th>
 			<td>
 				<?php foreach ( $values as $key => $value ) { ?>
 					<input
-						type="<?php echo $type; ?>"
+						type="<?php echo esc_attr( $type ); ?>"
 						id="<?php echo esc_attr( $field['name'] . '_' . $key ); ?>"
 						name="<?php echo esc_attr( $field['name'] ); ?>"
 						value="<?php echo esc_attr( $key ); ?>"
@@ -683,7 +690,7 @@ class Affiliate_Links_Metabox {
 					</label>
 					<br>
 				<?php } ?>
-				<p class="description"><?php echo $desc; ?></p>
+				<p class="description"><?php echo wp_kses_post( $desc ); ?></p>
 			</td>
 		</tr>
 		<?php
@@ -700,7 +707,7 @@ class Affiliate_Links_Metabox {
 			<th><?php esc_html_e( 'Total Hits', 'affiliate-links' ); ?></th>
 			<td>
 				<?php if ( $count ) { ?>
-					<span class="affiliate_links_total_count"><?php echo $count; ?></span>
+					<span class="affiliate_links_total_count"><?php echo esc_html( $count ); ?></span>
 
 				<?php } else { ?>
 					<span class="affiliate_links_total_count">-</span>
@@ -715,7 +722,11 @@ class Affiliate_Links_Metabox {
 
 		global $wpdb;
 
-		return $wpdb->get_var( "SELECT count(link_id) as hits FROM {$wpdb->prefix}af_links_activity WHERE link_id=$post_id" );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery -- Stats are dynamic and shouldn't be cached
+		return $wpdb->get_var( $wpdb->prepare( 
+			"SELECT count(link_id) as hits FROM {$wpdb->prefix}af_links_activity WHERE link_id=%d", 
+			$post_id 
+		) );
 	}
 
 	/**

@@ -167,7 +167,7 @@ $main_target_url   = current( get_post_meta( $post->ID, '_affiliate_links_target
 
         $('.repeater').repeater({
             defaultValues: {
-                'url': '<?php echo $main_target_url  ?>'
+                'url': '<?php echo esc_js( $main_target_url ); ?>'
             },
             repeaters: [{
                 selector: '.inner-repeater',

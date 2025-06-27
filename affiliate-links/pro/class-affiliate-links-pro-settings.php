@@ -15,11 +15,13 @@ class Affiliate_Links_Pro_Settings {
 		$options = array(
 			array(
 				'name'        => 'parameters_whitelist',
-				'title'       => __( 'Parameters Whitelist', 'affiliate-links' ),
+				'title'       => 'Parameters Whitelist',
+				'title_i18n'  => true,
 				'type'        => 'text',
 				'tab'         => 'general',
 				'default'     => '',
-				'description' => __( 'URL parameters which should be passed to the target URL (comma separated)', 'affiliate-links' ),
+				'description' => 'URL parameters which should be passed to the target URL (comma separated)',
+				'description_i18n' => true,
 			),
 		);
 		foreach ( $options as $field ) {

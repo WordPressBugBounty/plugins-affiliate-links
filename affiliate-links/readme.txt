@@ -1,9 +1,9 @@
-﻿=== Affiliate Links: WordPress Plugin for Link Cloaking and Link Management ===
+﻿=== Affiliate Links - Link Cloaking and Management ===
 Contributors: custom4web, wecantrack
 Tags: affiliate link manager, affiliate link masking, cloaking, link redirects, pretty links
 Requires at least: 4.0
-Tested up to: 6.7.1
-Stable tag: 3.1.0
+Tested up to: 6.8
+Stable tag: 3.2.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -123,6 +123,9 @@ Yes, just visit plugin setting page and adjust the subdirectory according to you
 It’s a simple WYSIWYG tool for embedding your link into the site content. Just select options you need and copy&paste to the post content.
 
 == Changelog ==
+= 3.2.0 - 27th June 2025 =
+ * Bug & Security fixes
+
 = 3.1.0 - 3rd February 2025 =
  * Security fixes
  * Added new feature: ability to generate affiliate links via We Can Track

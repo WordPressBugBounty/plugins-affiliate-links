@@ -30,7 +30,6 @@ class Affiliate_Links_PRO {
     }
 
     public function __construct() {
-        add_action( 'af_link_init', array( $this, 'load' ) );
         add_action( 'admin_init', array( $this, 'load_vendors' ) );
 
         $this->stats_instance        = Affiliate_Links_Pro_Stats::get_instance();
@@ -110,7 +109,12 @@ class Affiliate_Links_PRO {
             wp_enqueue_script( 'jquery-ui-datepicker' );
 
             wp_enqueue_style( 'affiliate-links-pro-jqplot', AFFILIATE_LINKS_PLUGIN_URL . 'pro/css/jquery.jqplot.css', FALSE, '1.6' );
-            wp_enqueue_style( 'jquery-style', '//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css' );
+            
+            // Load jQuery UI CSS locally instead of from CDN
+            // WordPress.org plugin repository does not allow external resources
+            // Previously loaded from: //code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css
+            // Now hosted locally to comply with WordPress plugin guidelines
+            wp_enqueue_style( 'jquery-style', AFFILIATE_LINKS_PLUGIN_URL . 'pro/css/jquery-ui.css', array(), '1.12.1' );
         }
     }
 
@@ -154,7 +158,7 @@ class Affiliate_Links_PRO {
                 $key = trim( $key );
 
                 if ( isset( $_GET[ $key ] ) ) {
-                    $query_args[ $key ] = (string) $_GET[ $key ];
+                    $query_args[ $key ] = sanitize_text_field( wp_unslash( $_GET[ $key ] ) );
                 }
             }
 

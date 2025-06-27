@@ -34,7 +34,7 @@ class Affiliate_Links_Pro_Recent_Links extends WP_Widget {
 		}
 
 		if ( isset( $cache[ $args['widget_id'] ] ) ) {
-			echo $cache[ $args['widget_id'] ];
+			echo wp_kses_post( $cache[ $args['widget_id'] ] );
 
 			return;
 		}
@@ -47,9 +47,9 @@ class Affiliate_Links_Pro_Recent_Links extends WP_Widget {
 		$links_ids = $this->stat_instance->get_recent_links( $instance );
 
 		if ( ! empty( $links_ids ) ) :
-			echo $args['before_widget'];
+			echo wp_kses_post( $args['before_widget'] );
 			if ( $title ) {
-				echo $args['before_title'] . $title . $args['after_title'];
+				echo wp_kses_post( $args['before_title'] ) . esc_html( $title ) . wp_kses_post( $args['after_title'] );
 			}
 			?>
             <ul>
@@ -66,7 +66,7 @@ class Affiliate_Links_Pro_Recent_Links extends WP_Widget {
 				<?php endforeach; ?>
             </ul>
 			<?php
-			echo $args['after_widget'];
+			echo wp_kses_post( $args['after_widget'] );
 		endif;
 
 		$cache[ $args['widget_id'] ] = ob_get_flush();
@@ -77,7 +77,7 @@ class Affiliate_Links_Pro_Recent_Links extends WP_Widget {
 	public function update( $new_instance, $old_instance ) {
 
 		$instance           = $old_instance;
-		$instance['title']  = strip_tags( $new_instance['title'] );
+		$instance['title']  = wp_strip_all_tags( $new_instance['title'] );
 		$instance['number'] = $new_instance['number'];
 		$instance['cat']    = $new_instance['cat'];
 

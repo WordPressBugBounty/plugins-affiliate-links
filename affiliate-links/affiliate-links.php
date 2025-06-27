@@ -1,8 +1,12 @@
 <?php
 /**
- * Plugin Name: Affiliate Links: WordPress Plugin for Link Cloaking and Link Management
+ * Plugin Name: Affiliate Links - Link Cloaking and Management
+ * 
+ * Note: Plugin name changed from "WordPress Plugin for Link Cloaking" 
+ * because "Plugin" is not allowed in plugin names per WordPress.org guidelines
+ * 
  * Description: Affiliate Links is a powerful WordPress plugin developed by wecantrack, designed to help you create, cloak, and manage both internal and external links effortlessly.
- * Version:     3.1.0
+ * Version:     3.2.0
  * Author:      wecantrack.com
  * Author URI:  https://wecantrack.com
  * License:     GPL-2.0+

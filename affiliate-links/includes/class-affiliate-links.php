@@ -32,14 +32,9 @@ class Affiliate_Links {
 
 		add_action( 'template_redirect', array( $this, 'redirect' ) );
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
-
-		require_once AFFILIATE_LINKS_PLUGIN_DIR . 'admin/class-affiliate-links-settings.php';
-		new Affiliate_Links_Settings();
-
-		if ( current_user_can( 'manage_options' ) ) {
-			require_once AFFILIATE_LINKS_PLUGIN_DIR . 'admin/class-affiliate-links-metabox.php';
-			require_once AFFILIATE_LINKS_PLUGIN_DIR . 'admin/class-affiliate-links-buttons.php';
-		}
+		
+		// Load everything after text domain is loaded
+		add_action( 'plugins_loaded', array( $this, 'load_after_textdomain' ), 20 );
 
 		require_once AFFILIATE_LINKS_PLUGIN_DIR . 'includes/class-affiliate-links-shortcode.php';
 
@@ -56,10 +51,6 @@ class Affiliate_Links {
 
 			}
 		}
-
-        do_action( 'af_link_init' );
-
-		$this->load_pro();
 	}
 
 	/**
@@ -68,6 +59,26 @@ class Affiliate_Links {
 	function load_textdomain() {
 
 		load_plugin_textdomain( 'affiliate-links', false, dirname( AFFILIATE_LINKS_BASENAME ) . '/languages/' );
+	}
+
+	/**
+	 * Load classes and pro files after text domain is loaded
+	 */
+	function load_after_textdomain() {
+		// Load admin classes
+		require_once AFFILIATE_LINKS_PLUGIN_DIR . 'admin/class-affiliate-links-settings.php';
+		new Affiliate_Links_Settings();
+
+		if ( current_user_can( 'manage_options' ) ) {
+			require_once AFFILIATE_LINKS_PLUGIN_DIR . 'admin/class-affiliate-links-metabox.php';
+			require_once AFFILIATE_LINKS_PLUGIN_DIR . 'admin/class-affiliate-links-buttons.php';
+		}
+
+		// Load pro files
+		$this->load_pro();
+
+		// Fire af_link_init after everything is loaded
+		do_action( 'af_link_init' );
 	}
 
 	/**
@@ -258,6 +269,7 @@ class Affiliate_Links {
 			$redirect_type              = get_post_meta( $post_id, '_affiliate_links_redirect', true );
 			$nofollow                   = get_post_meta( $post_id, '_affiliate_links_nofollow', true );
 			$iframe                     = get_post_meta( $post_id, '_affiliate_links_iframe', true );
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Public URL parameter for A/B testing
 			if ( isset( $_GET['afbclid'] ) && $_GET['afbclid'] == 1 ) {
 				$target_url = $target_url_two;
 			}

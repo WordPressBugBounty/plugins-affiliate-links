@@ -11,14 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 <div class="wrap">
     <h2 class="nav-tab-wrapper">
 		<?php foreach ( $this->get_setting_tabs() as $name => $label ): ?>
-            <a href="<?php echo admin_url( 'edit.php?post_type=affiliate-links&page=reports&tab=' . $name ) ?>"
+            <a href="<?php echo esc_url( admin_url( 'edit.php?post_type=affiliate-links&page=reports&tab=' . $name ) ); ?>"
                class="nav-tab <?php echo $this->get_current_tab() == $name ? 'nav-tab-active' : '' ?>"><?php echo esc_html( $label ) ?></a>
 		<?php endforeach; ?>
     </h2>
 	<?php do_action( 'af_link_report_tab_' . $this->get_current_tab(), $this->get_current_tab() ); ?>
 	<div>
 		<p>
-            <a href="<?php print wp_nonce_url( admin_url( 'edit.php?post_type=affiliate-links&page=reports' ), 'delete_stats', 'af_delete_nonce' ) ?>"
+            <a href="<?php echo esc_url( wp_nonce_url( admin_url( 'edit.php?post_type=affiliate-links&page=reports' ), 'delete_stats', 'af_delete_nonce' ) ); ?>"
                onclick="return confirm('<?php esc_html_e( 'Are you sure you want to delete all stats? This cannot be undone.', 'affiliate-links' ) ?>');">
                 <?php esc_html_e( 'Delete', 'affiliate-links' ) ?>
             </a>

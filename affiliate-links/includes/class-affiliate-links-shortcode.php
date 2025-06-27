@@ -44,7 +44,7 @@ class Affiliate_Links_Shortcode {
 
 		ob_start();
 		?>
-		<a<?php echo $link_attrs; ?>><?php echo $content; ?></a>
+		<a href="<?php echo esc_url( $href ); ?>"<?php echo esc_attr( $a['rel'] ) ? ' rel="nofollow"' : ''; ?><?php echo esc_attr( $a['target'] ) ? ' target="_blank"' : ''; ?><?php echo wp_kses_post( $this->format_attr( 'title', $a ) ); ?><?php echo wp_kses_post( $this->format_attr( 'class', $a ) ); ?>><?php echo wp_kses_post( $content ); ?></a>
 		<?php
 
 		return ob_get_clean();

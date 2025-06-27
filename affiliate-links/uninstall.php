@@ -23,17 +23,18 @@ require_once AFFILIATE_LINKS_PLUGIN_DIR . 'includes/class-affiliate-links.php';
 $post_type = Affiliate_Links::$post_type;
 
 // Delete options
+// phpcs:disable WordPress.DB.DirectDatabaseQuery -- Direct queries are acceptable in uninstall scripts
 $wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'affiliate_links%';" );
 $wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE 'affiliate_license%';" );
 
 // Delete posts + data
-$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->posts} WHERE post_type IN ( '%s' );", $post_type ) );
+$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->posts} WHERE post_type IN ( %s );", $post_type ) );
 $wpdb->query( "DELETE meta FROM {$wpdb->postmeta} meta LEFT JOIN {$wpdb->posts} posts ON posts.ID = meta.post_id WHERE posts.ID IS NULL;" );
 
 // Delete terms + data
 $taxonomy = Affiliate_Links::$taxonomy;
 
-$terms = $wpdb->get_results( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN ('%s') ORDER BY t.name ASC", $taxonomy ) );
+$terms = $wpdb->get_results( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE tt.taxonomy IN (%s) ORDER BY t.name ASC", $taxonomy ) );
 
 if ( $terms ) {
     foreach ( $terms as $term ) {

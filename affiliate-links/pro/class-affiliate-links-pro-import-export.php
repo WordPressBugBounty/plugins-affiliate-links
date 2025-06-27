@@ -45,10 +45,27 @@ class Affiliate_Links_Pro_Import_Export extends Affiliate_Links_Pro_Base {
     public function import() {
         $total = 0;
         $have  = 0;
-        $ext   = pathinfo( $_FILES[ 'file' ][ 'name' ], PATHINFO_EXTENSION );
+        
+        // Validate file extension
+        $ext   = strtolower( pathinfo( $_FILES[ 'file' ][ 'name' ], PATHINFO_EXTENSION ) );
+        
+        // Validate MIME type
+        $mime_type = isset( $_FILES[ 'file' ][ 'tmp_name' ] ) ? mime_content_type( $_FILES[ 'file' ][ 'tmp_name' ] ) : '';
+        $allowed_mimes = array(
+            'csv' => array( 'text/csv', 'text/plain', 'application/csv' ),
+            'xml' => array( 'text/xml', 'application/xml' )
+        );
+        
+        // Check extension
         if ( $ext !== 'xml' && $ext !== 'csv' ) {
+            /* translators: %s: file extension */
             $this->messages[ 'message' ] = sprintf( __( "This type file (.%s) not supported. Download only XML or CSV file", 'affiliate-links' ), $ext );
-        } else {
+        } 
+        // Check MIME type
+        else if ( ! isset( $allowed_mimes[ $ext ] ) || ! in_array( $mime_type, $allowed_mimes[ $ext ], true ) ) {
+            $this->messages[ 'message' ] = __( "Invalid file type. Please upload a valid XML or CSV file.", 'affiliate-links' );
+        } 
+        else {
             switch ( $ext ) {
                 case 'csv' :
                     $result_importing = $this->import_from_csv( $total, $have );
@@ -57,13 +74,29 @@ class Affiliate_Links_Pro_Import_Export extends Affiliate_Links_Pro_Base {
                     $result_importing = $this->import_from_xml( $total, $have );
                     break;
             }
-            $this->messages[ 'success' ] = sprintf( __( "Add new Links - %s , updated - %s (they were already on the site. Their metadata has been updated from file.)", 'affiliate-links' ), $total, $have );
+            /* translators: 1: number of new links added, 2: number of links updated */
+            $this->messages[ 'success' ] = sprintf( __( "Add new Links - %1\$s , updated - %2\$s (they were already on the site. Their metadata has been updated from file.)", 'affiliate-links' ), $total, $have );
         }
     }
 
     public function import_from_xml( &$total, &$have ) {
         $file   = file_get_contents( $_FILES[ 'file' ][ 'tmp_name' ] );
-        $links = new SimpleXMLElement($file);
+        
+        // Disable external entity loading to prevent XXE attacks
+        $old_value = libxml_disable_entity_loader(true);
+        $old_errors = libxml_use_internal_errors(true);
+        
+        try {
+            $links = new SimpleXMLElement($file);
+        } catch (Exception $e) {
+            libxml_disable_entity_loader($old_value);
+            libxml_use_internal_errors($old_errors);
+            $this->messages[ 'message' ] = __( 'Invalid XML file format', 'affiliate-links' );
+            return false;
+        }
+        
+        libxml_disable_entity_loader($old_value);
+        libxml_use_internal_errors($old_errors);
         $links_json = json_encode($links);
         $links = json_decode($links_json,TRUE);
         foreach ( $links['links'] as $link ) {
@@ -99,9 +132,20 @@ class Affiliate_Links_Pro_Import_Export extends Affiliate_Links_Pro_Base {
     }
 
     public function import_from_csv( &$total, &$have ) {
-        if ( ($handle = fopen( $_FILES[ 'file' ][ 'tmp_name' ], 'r' )) !== FALSE ) {
+        global $wp_filesystem;
+        if ( ! function_exists( 'WP_Filesystem' ) ) {
+            require_once( ABSPATH . 'wp-admin/includes/file.php' );
+        }
+        WP_Filesystem();
+        
+        $csv_content = $wp_filesystem->get_contents( $_FILES[ 'file' ][ 'tmp_name' ] );
+        if ( $csv_content !== false ) {
+            $lines = explode( "\n", $csv_content );
             $row_number = 0;
-            while ( ($link_data  = fgetcsv( $handle, 1024, ',' )) !== FALSE ) {
+            foreach ( $lines as $line ) {
+                if ( empty( trim( $line ) ) ) continue;
+                $link_data = str_getcsv( $line, ',' );
+                if ( $link_data !== FALSE && count( $link_data ) > 0 ) {
                 if ( $row_number > 0 && $link_data[ 0 ] ) {
                     $exists_links = $this->getPostBySlug( $link_data[ 6 ] );
                     if ( ! $exists_links ) {
@@ -127,8 +171,8 @@ class Affiliate_Links_Pro_Import_Export extends Affiliate_Links_Pro_Base {
                     }
                 }
                 $row_number ++;
+                }
             }
-            fclose( $handle );
         }
     }
 
@@ -162,40 +206,49 @@ class Affiliate_Links_Pro_Import_Export extends Affiliate_Links_Pro_Base {
             $embedded_add_link_class  = get_post_meta( $link->ID, '_embedded_add_link_class', TRUE );
             $embedded_add_link_anchor = get_post_meta( $link->ID, '_embedded_add_link_anchor', TRUE );
             $xml .= "<links>";
-            $xml .= "<target>" . $target_url . "</target>";
-            $xml .= "<description>" . $description . "</description>";
-            $xml .= "<iframe>" . $iframe . "</iframe>";
-            $xml .= "<nofollow>" . $nofollow . "</nofollow>";
-            $xml .= "<type>" . $redirect_type . "</type>";
-            $xml .= "<title>" . $link->post_title . "</title>";
-            $xml .= "<name>" . $link->post_name . "</name>";
+            $xml .= "<target>" . esc_xml( $target_url ) . "</target>";
+            $xml .= "<description>" . esc_xml( $description ) . "</description>";
+            $xml .= "<iframe>" . esc_xml( $iframe ) . "</iframe>";
+            $xml .= "<nofollow>" . esc_xml( $nofollow ) . "</nofollow>";
+            $xml .= "<type>" . esc_xml( $redirect_type ) . "</type>";
+            $xml .= "<title>" . esc_xml( $link->post_title ) . "</title>";
+            $xml .= "<name>" . esc_xml( $link->post_name ) . "</name>";
             $xml .= "<categories>";
             foreach ( $link_categories_names as $link_category_name ) {
-                $xml .= "<category_name>" . $link_category_name . "</category_name>";
+                $xml .= "<category_name>" . esc_xml( $link_category_name ) . "</category_name>";
             }
             $xml .= "</categories>";
-            $xml .= '<embedded_add_rel>'.$embedded_add_rel.'</embedded_add_rel>';
-            $xml .= '<embedded_add_target>'.$embedded_add_target.'</embedded_add_target>';
-            $xml .= '<embedded_add_link_title>'.$embedded_add_link_title.'</embedded_add_link_title>';
-            $xml .= '<embedded_add_link_class>'.$embedded_add_link_class.'</embedded_add_link_class>';
-            $xml .= '<embedded_add_link_anchor>'.$embedded_add_link_anchor.'</embedded_add_link_anchor>';
-            $xml .= "<adu>" . $adu . "</adu>";
+            $xml .= '<embedded_add_rel>' . esc_xml( $embedded_add_rel ) . '</embedded_add_rel>';
+            $xml .= '<embedded_add_target>' . esc_xml( $embedded_add_target ) . '</embedded_add_target>';
+            $xml .= '<embedded_add_link_title>' . esc_xml( $embedded_add_link_title ) . '</embedded_add_link_title>';
+            $xml .= '<embedded_add_link_class>' . esc_xml( $embedded_add_link_class ) . '</embedded_add_link_class>';
+            $xml .= '<embedded_add_link_anchor>' . esc_xml( $embedded_add_link_anchor ) . '</embedded_add_link_anchor>';
+            $xml .= "<adu>" . esc_xml( $adu ) . "</adu>";
             $xml .= "</links>";
         }
         $xml .= '</affilate>';
-        header( $_SERVER[ "SERVER_PROTOCOL" ] . " 200 OK" );
+        $protocol = isset( $_SERVER[ "SERVER_PROTOCOL" ] ) ? sanitize_text_field( wp_unslash( $_SERVER[ "SERVER_PROTOCOL" ] ) ) : 'HTTP/1.0';
+        if ( ! in_array( $protocol, array( 'HTTP/1.0', 'HTTP/1.1', 'HTTP/2.0' ), true ) ) {
+            $protocol = 'HTTP/1.0';
+        }
+        header( $protocol . " 200 OK" );
         header( "Cache-Control: public" ); // needed for internet explorer
         header( "Content-Type: text/xml; charset=utf-8" );
-        header( "Content-Disposition: attachment; filename=affilate-" . date( "Y-m-d H:i:s" ) . ".xml" );
+        header( "Content-Disposition: attachment; filename=affilate-" . gmdate( "Y-m-d H:i:s" ) . ".xml" );
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XML is already escaped above
         echo $xml;
         die();
     }
 
     public function export_to_csv( $links = array() ) {
-        header( $_SERVER[ "SERVER_PROTOCOL" ] . " 200 OK" );
+        $protocol = isset( $_SERVER[ "SERVER_PROTOCOL" ] ) ? sanitize_text_field( wp_unslash( $_SERVER[ "SERVER_PROTOCOL" ] ) ) : 'HTTP/1.0';
+        if ( ! in_array( $protocol, array( 'HTTP/1.0', 'HTTP/1.1', 'HTTP/2.0' ), true ) ) {
+            $protocol = 'HTTP/1.0';
+        }
+        header( $protocol . " 200 OK" );
         header( "Cache-Control: public" ); // needed for internet explorer
         header( 'Content-Type: text/csv' );
-        header( "Content-Disposition: attachment; filename=affilate-" . date( "Y-m-d H:i:s" ) . ".csv" );
+        header( "Content-Disposition: attachment; filename=affilate-" . gmdate( "Y-m-d H:i:s" ) . ".csv" );
         $file = fopen( 'php://output', 'w' );
         fputcsv( $file, array( 'Link Target URL', 'Link Description', 'Mask Link', 'Nofollow Link', 'Redirect Type', 'Link title', 'Link name', 'Categories', 'Add rel=`nofollow`', 'Add target=`_blank`', 'Add link title', 'Add link class', 'Add link anchor', 'Additional target URL' ) );
         foreach ( $links as $link ) {

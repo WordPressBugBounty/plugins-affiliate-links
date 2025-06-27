@@ -37,21 +37,25 @@ class Affiliate_Links_Pro_Replacer extends Affiliate_Links_Pro_Base {
 
 	public function controller() {
 		if ( current_user_can( 'manage_options' ) && isset( $_POST['replace_links_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['replace_links_nonce'] ) ), 'replace_links' ) ) {
-			$this->current_link        = isset( $_POST['current-link'] ) ? esc_url_raw( $_POST['current-link'] ) : '';
-			$this->new_link            = isset( $_POST['new-link'] ) ? esc_url_raw( $_POST['new-link'] ) : '';
+			$this->current_link        = isset( $_POST['current-link'] ) ? esc_url_raw( wp_unslash( $_POST['current-link'] ) ) : '';
+			$this->new_link            = isset( $_POST['new-link'] ) ? esc_url_raw( wp_unslash( $_POST['new-link'] ) ) : '';
 			$status                    = $this->replace_link( $this->current_link, $this->new_link );
+			/* translators: %s: number of links updated */
 			$this->messages['message'] = sprintf( __( "Query executed OK, %s links updated", 'affiliate-links' ), $status );
 		}
 		$this->render_view( $this->template );
 	}
 
 	public function replace_link( $current_link, $new_link ) {
-		return $this->wpdb->query(
-			$this->wpdb->prepare(
-				"UPDATE {$this->wpdb->posts} SET post_content = replace(post_content, '%s', '%s') WHERE {$this->wpdb->posts}.post_status='publish'",
-				$current_link,
-				$new_link
-			)
+		global $wpdb;
+		
+		$sql = $wpdb->prepare(
+			"UPDATE {$wpdb->posts} SET post_content = replace(post_content, %s, %s) WHERE {$wpdb->posts}.post_status='publish'",
+			$current_link,
+			$new_link
 		);
+		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $sql is already prepared above
+		return $wpdb->query( $sql );
 	}
 }

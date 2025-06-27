@@ -30,7 +30,7 @@
 <body>
 <div class="affiliate-links-wrap">
     <iframe class="affiliate-links-iframe" width="100%" height="100%"
-            frameborder="0" src="<?php echo $target_url ?>"></iframe>
+            frameborder="0" src="<?php echo esc_url( $target_url ); ?>"></iframe>
 </div>
 </body>
 </html>

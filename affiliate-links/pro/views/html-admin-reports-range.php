@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<?php foreach ( $value as $v ): ?>
                                 <input type="hidden"
                                        name="<?php echo esc_attr( sanitize_text_field( $key ) ) . '[]'; ?>"
-                                       value="<?php echo esc_attr( sanitize_text_field( $v ) ) ?>"/>'
+                                       value="<?php echo esc_attr( sanitize_text_field( $v ) ) ?>"/>
 							<?php endforeach; ?>
 						<?php else: ?>
                             <input type="hidden"
@@ -38,13 +38,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                     <input type="text" size="9" placeholder="yyyy-mm-dd"
                            value="<?php if ( ! empty( $_GET['start_date'] ) ) {
-						       echo esc_attr( $_GET['start_date'] );
+						       echo esc_attr( sanitize_text_field( wp_unslash( $_GET['start_date'] ) ) );
 					       } ?>"
                            name="start_date" class="range_datepicker from"/>
 
                     <input type="text" size="9" placeholder="yyyy-mm-dd"
                            value="<?php if ( ! empty( $_GET['end_date'] ) ) {
-						       echo esc_attr( $_GET['end_date'] );
+						       echo esc_attr( sanitize_text_field( wp_unslash( $_GET['end_date'] ) ) );
 					       } ?>"
                            name="end_date" class="range_datepicker to"/>
 
