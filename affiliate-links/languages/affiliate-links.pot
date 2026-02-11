@@ -1,0 +1,537 @@
+# Copyright (C) 2025 wecantrack.com
+# This file is distributed under the same license as the Affiliate Links - Link Cloaking and Management plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Affiliate Links - Link Cloaking and Management 3.2.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/affiliate-links\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-06-27T12:35:09+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: affiliate-links\n"
+
+#. Plugin Name of the plugin
+msgid "Affiliate Links - Link Cloaking and Management"
+msgstr ""
+
+#. Description of the plugin
+msgid "Affiliate Links is a powerful WordPress plugin developed by wecantrack, designed to help you create, cloak, and manage both internal and external links effortlessly."
+msgstr ""
+
+#. Author of the plugin
+msgid "wecantrack.com"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://wecantrack.com"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:189
+msgid "Link URL"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:198
+#: pro/views/html-admin-reports-link-info.php:39
+#: pro/views/html-admin-reports-link-info.php:58
+#: pro/views/html-admin-reports-link-info.php:77
+#: pro/views/html-admin-reports-link-info.php:96
+msgid "Hits"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:250
+msgid "All Categories"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:287
+msgid "Link Settings"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:296
+msgid "Link Embedding"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:442
+#: admin/partials/wysiwyg-button-dialog.php:55
+msgid "Add rel=\"nofollow\""
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:446
+msgid "Discourage search engines from following this link"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:451
+#: admin/partials/wysiwyg-button-dialog.php:62
+msgid "Add target=\"_blank"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:455
+msgid "Link will be opened in a new browser tab"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:460
+#: admin/partials/wysiwyg-button-dialog.php:34
+msgid "Add link title"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:463
+msgid "Title text on link hover"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:468
+#: admin/partials/wysiwyg-button-dialog.php:41
+msgid "Add link class"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:471
+msgid "CSS class for custom styling"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:476
+#: admin/partials/wysiwyg-button-dialog.php:48
+msgid "Add link anchor"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:479
+msgid "Clickable link text"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:506
+msgid "Before you can use this link you need to publish it."
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:707
+msgid "Total Hits"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:715
+msgid "Total count of link redirects"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:739
+msgid "Your link"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:749
+#: admin/partials/metabox-embed.php:11
+#: admin/partials/metabox-embed.php:14
+msgid "Copy"
+msgstr ""
+
+#: admin/class-affiliate-links-metabox.php:751
+msgid "To change this link you should edit Permalink at the top of screen"
+msgstr ""
+
+#: admin/class-affiliate-links-settings.php:237
+#: admin/partials/settings-nav-tabs.php:9
+msgid "Settings"
+msgstr ""
+
+#: admin/class-affiliate-links-settings.php:382
+msgid "Affiliate Links Settings"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:9
+msgid "Embed HTML link"
+msgstr ""
+
+#: admin/partials/metabox-embed.php:12
+#: admin/partials/wysiwyg-button-dialog.php:68
+msgid "Embed Shortcode"
+msgstr ""
+
+#: admin/partials/metabox-sidebar.php:13
+msgid "Plugin Website"
+msgstr ""
+
+#: admin/partials/metabox-sidebar.php:14
+#: admin/partials/settings-nav-tabs.php:11
+msgid "Docs"
+msgstr ""
+
+#: admin/partials/metabox-sidebar.php:15
+#: admin/partials/settings-nav-tabs.php:10
+msgid "FAQ"
+msgstr ""
+
+#: admin/partials/metabox-sidebar.php:16
+#: admin/partials/settings-sidebar.php:12
+msgid "Go Premium!"
+msgstr ""
+
+#: admin/partials/settings-nav-tabs.php:12
+msgid "Go Premium"
+msgstr ""
+
+#: admin/partials/settings-sidebar.php:9
+msgid "Affiliate Links PRO"
+msgstr ""
+
+#: admin/partials/wysiwyg-button-dialog.php:15
+msgid "Insert Affiliate link"
+msgstr ""
+
+#: admin/partials/wysiwyg-button-dialog.php:17
+msgid "Close"
+msgstr ""
+
+#: admin/partials/wysiwyg-button-dialog.php:23
+#: includes/class-affiliate-links.php:110
+#: includes/class-affiliate-links.php:111
+msgid "Affiliate Links"
+msgstr ""
+
+#: admin/partials/wysiwyg-button-dialog.php:70
+msgid "Insert link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:108
+msgctxt "Post Type General Name"
+msgid "Affiliate Links"
+msgstr ""
+
+#: includes/class-affiliate-links.php:109
+msgctxt "Post Type Singular Name"
+msgid "Affiliate Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:112
+#: includes/class-affiliate-links.php:113
+msgid "Add New Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:114
+#: pro/views/html-link-replacer.php:34
+msgid "New Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:115
+msgid "Edit Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:116
+msgid "Update Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:117
+msgid "View Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:118
+msgid "Search Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:131
+msgid "Affiliate Link"
+msgstr ""
+
+#: includes/class-affiliate-links.php:132
+msgid "Affiliate Link Post Type"
+msgstr ""
+
+#: includes/class-affiliate-links.php:162
+msgctxt "Taxonomy General Name"
+msgid "Categories"
+msgstr ""
+
+#: includes/class-affiliate-links.php:163
+msgctxt "Taxonomy Singular Name"
+msgid "Category"
+msgstr ""
+
+#: includes/class-affiliate-links.php:164
+msgid "Categories"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-import-export.php:25
+msgid "Import Export XML or CSV"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-import-export.php:25
+msgid "Import Export"
+msgstr ""
+
+#. translators: %s: file extension
+#: pro/class-affiliate-links-pro-import-export.php:62
+msgid "This type file (.%s) not supported. Download only XML or CSV file"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-import-export.php:66
+msgid "Invalid file type. Please upload a valid XML or CSV file."
+msgstr ""
+
+#. translators: 1: number of new links added, 2: number of links updated
+#: pro/class-affiliate-links-pro-import-export.php:78
+msgid "Add new Links - %1$s , updated - %2$s (they were already on the site. Their metadata has been updated from file.)"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-import-export.php:94
+msgid "Invalid XML file format"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-metabox.php:37
+msgid "Custom Target URL"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-metabox.php:113
+#: pro/views/html-admin-reports-link-info.php:18
+msgid "Browser"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-metabox.php:114
+#: pro/views/html-admin-reports-link-info.php:57
+msgid "Platform"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-metabox.php:115
+#: pro/views/html-admin-reports-link-info.php:38
+msgid "OS"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-metabox.php:116
+#: pro/views/html-admin-reports-link-info.php:76
+msgid "Language"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-replacer.php:30
+msgid "Affiliate Links Replacer"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-replacer.php:31
+msgid "Link Replacer"
+msgstr ""
+
+#. translators: %s: number of links updated
+#: pro/class-affiliate-links-pro-replacer.php:44
+msgid "Query executed OK, %s links updated"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-shortcodes.php:19
+#: pro/widgets/class-affiliate-links-widget-popular-links.php:45
+msgid "Popular Links"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-shortcodes.php:47
+#: pro/widgets/class-affiliate-links-widget-recent-links.php:45
+msgid "Recent Links"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-stats.php:236
+msgid "Affiliate Links Reports"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-stats.php:237
+msgid "Reports"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-stats.php:264
+msgid "All stats data was deleted"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-stats.php:288
+msgid "Links by Date"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-stats.php:289
+msgid "Browser by Date"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-stats.php:290
+msgid "Link by Date"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-stats.php:291
+msgid "Link Category by Date"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-stats.php:297
+msgid "Last Month"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-stats.php:298
+msgid "This Month"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-stats.php:299
+msgid "Last 7 Days"
+msgstr ""
+
+#: pro/class-affiliate-links-pro-stats.php:313
+msgid "Direct Entry"
+msgstr ""
+
+#: pro/class-affiliate-links-pro.php:224
+msgid "Unknown"
+msgstr ""
+
+#: pro/views/html-additional-settings.php:20
+#: pro/views/html-additional-settings.php:70
+msgid "Target URL"
+msgstr ""
+
+#: pro/views/html-additional-settings.php:26
+#: pro/views/html-additional-settings.php:54
+#: pro/views/html-additional-settings.php:77
+#: pro/views/html-additional-settings.php:117
+#: pro/views/html-admin-reports.php:23
+msgid "Delete"
+msgstr ""
+
+#: pro/views/html-additional-settings.php:29
+#: pro/views/html-additional-settings.php:80
+msgid "Rule"
+msgstr ""
+
+#: pro/views/html-additional-settings.php:60
+#: pro/views/html-additional-settings.php:124
+msgid "And"
+msgstr ""
+
+#: pro/views/html-additional-settings.php:63
+#: pro/views/html-additional-settings.php:126
+msgid "or"
+msgstr ""
+
+#: pro/views/html-additional-settings.php:132
+msgid "Add"
+msgstr ""
+
+#: pro/views/html-admin-reports-link-info.php:19
+msgid "Sessions"
+msgstr ""
+
+#: pro/views/html-admin-reports-link-info.php:95
+msgid "Referrer link"
+msgstr ""
+
+#: pro/views/html-admin-reports-range.php:20
+msgid "Custom:"
+msgstr ""
+
+#: pro/views/html-admin-reports-range.php:52
+msgid "Go"
+msgstr ""
+
+#: pro/views/html-admin-reports.php:22
+msgid "Are you sure you want to delete all stats? This cannot be undone."
+msgstr ""
+
+#: pro/views/html-admin-reports.php:25
+msgid "all stats data"
+msgstr ""
+
+#: pro/views/html-browser-by-date.php:45
+#: pro/views/html-link-by-date.php:74
+#: pro/views/html-link-cat-by-date.php:75
+#: pro/views/html-links-by-date.php:42
+msgid "There is no activity for the given period."
+msgstr ""
+
+#: pro/views/html-link-by-date.php:18
+msgid "Select Link"
+msgstr ""
+
+#: pro/views/html-link-by-date.php:76
+#: pro/views/html-link-cat-by-date.php:77
+msgid "Choose a link to view stats"
+msgstr ""
+
+#: pro/views/html-link-cat-by-date.php:19
+msgid "Select Category of Links"
+msgstr ""
+
+#: pro/views/html-link-express.php:18
+msgid "Import export"
+msgstr ""
+
+#: pro/views/html-link-express.php:19
+msgid "Using this tool you can import or export all affilate links and categories for them."
+msgstr ""
+
+#: pro/views/html-link-express.php:25
+msgid "Upload CSV or XML file"
+msgstr ""
+
+#: pro/views/html-link-express.php:37
+msgid "Please select your preferred file type for export"
+msgstr ""
+
+#: pro/views/html-link-express.php:39
+msgid "CSV"
+msgstr ""
+
+#: pro/views/html-link-express.php:40
+msgid "XML"
+msgstr ""
+
+#: pro/views/html-link-replacer.php:8
+msgid "This link will be replaced and will no longer be available. Use carefully."
+msgstr ""
+
+#: pro/views/html-link-replacer.php:21
+msgid "Link replacer"
+msgstr ""
+
+#: pro/views/html-link-replacer.php:22
+msgid "Using this tool you can do bulk replace old affiliate links with new links in post content."
+msgstr ""
+
+#: pro/views/html-link-replacer.php:28
+msgid "Current Link"
+msgstr ""
+
+#: pro/views/html-link-replacer.php:37
+msgid "This link will be available."
+msgstr ""
+
+#: pro/views/html-link-replacer.php:39
+msgid "This action cannot be undone. Please backup your database first."
+msgstr ""
+
+#: pro/widgets/class-affiliate-links-widget-popular-links.php:15
+msgid "The most popular affiliate links on your site"
+msgstr ""
+
+#: pro/widgets/class-affiliate-links-widget-popular-links.php:20
+msgid "Popular Affiliate Links"
+msgstr ""
+
+#: pro/widgets/class-affiliate-links-widget-popular-links.php:107
+#: pro/widgets/class-affiliate-links-widget-recent-links.php:107
+msgid "Title"
+msgstr ""
+
+#: pro/widgets/class-affiliate-links-widget-popular-links.php:118
+#: pro/widgets/class-affiliate-links-widget-recent-links.php:118
+msgid "Category"
+msgstr ""
+
+#: pro/widgets/class-affiliate-links-widget-popular-links.php:123
+#: pro/widgets/class-affiliate-links-widget-recent-links.php:123
+msgid "All"
+msgstr ""
+
+#: pro/widgets/class-affiliate-links-widget-popular-links.php:140
+#: pro/widgets/class-affiliate-links-widget-recent-links.php:140
+msgid "Number of posts to show"
+msgstr ""
+
+#: pro/widgets/class-affiliate-links-widget-popular-links.php:150
+#: pro/widgets/class-affiliate-links-widget-recent-links.php:150
+msgid "Enter \"-1\" to show all links"
+msgstr ""
+
+#: pro/widgets/class-affiliate-links-widget-recent-links.php:15
+msgid "The most recent affiliate links on your site"
+msgstr ""
+
+#: pro/widgets/class-affiliate-links-widget-recent-links.php:20
+msgid "Recent Affiliate Links"
+msgstr ""
+
+#: test-textdomain.php:44
+msgid "Affiliate Link Base"
+msgstr ""
