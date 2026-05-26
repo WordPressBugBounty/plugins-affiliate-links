@@ -3,7 +3,7 @@ Contributors: custom4web, wecantrack
 Tags: affiliate link manager, affiliate link masking, cloaking, link redirects, pretty links
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 3.2.0
+Stable tag: 3.2.1
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -39,7 +39,13 @@ counts.
 
 == Pro Features 💪 ==
 
-Elevate your affiliate marketing with advanced analytics and ad network integrations:
+Elevate your affiliate marketing with advanced link management, analytics and ad network integrations:
+
+== Affiliate Link Management: ==
+* 🛠️ [Affiliate Link Generator](https://wecantrack.com/affiliate-link-generator/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Transform any product landing page URL into a properly formatted, trackable affiliate link in seconds. Add custom SubIDs to tag campaigns, content or placements, and pick the right network account from a single search - no more logging into multiple affiliate platforms.
+* 🤖 [Automatic Link Monetisation Script](https://wecantrack.com/monetisation-script/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Automatically detect unmonetised product URLs in your existing content and replace them with wecantrack redirect URLs based on your connected affiliate partnerships. Turn pages you’ve already published into revenue, without any manual link building.
+* 🎭 [Link Cloaking](https://wecantrack.com/link-cloaking/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Hide raw affiliate parameters behind short, branded redirect URLs on your own domain while keeping server-side tracking fully intact. Fully compatible with Pretty Links, ThirstyAffiliates, Lasso, Redirection and other major WordPress cloaking plugins.
+* 🧪 [Affiliate Link Tester](https://wecantrack.com/link-testing/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Manually or automatically test your outgoing tracking links to catch 404s, broken redirects and dead landing pages before they cost you commissions. Includes custom out-of-stock detection for Amazon and Bol.com, CSV import/export, labels and full API automation.
 
 == Analytics Platform Integrations: ==
 * 🌐 [Google Analytics Integration](https://wecantrack.com/affiliate-sales-in-google-analytics/?utm_source=wordpress&utm_medium=links-plugin&utm_campaign=description): Track affiliate conversions as purchase conversions within
@@ -123,6 +129,9 @@ Yes, just visit plugin setting page and adjust the subdirectory according to you
 It’s a simple WYSIWYG tool for embedding your link into the site content. Just select options you need and copy&paste to the post content.
 
 == Changelog ==
+= 3.2.1 - 26th May 2026 =
+Update readme.txt
+
 = 3.2.0 - 27th June 2025 =
  * Bug & Security fixes
 
