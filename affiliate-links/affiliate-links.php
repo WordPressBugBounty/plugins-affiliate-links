@@ -6,7 +6,7 @@
  * because "Plugin" is not allowed in plugin names per WordPress.org guidelines
  * 
  * Description: Affiliate Links is a powerful WordPress plugin developed by wecantrack, designed to help you create, cloak, and manage both internal and external links effortlessly.
- * Version:     3.2.1
+ * Version:     3.3.0
  * Author:      wecantrack.com
  * Author URI:  https://wecantrack.com
  * License:     GPL-2.0+

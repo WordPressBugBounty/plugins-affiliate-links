@@ -358,11 +358,16 @@ class Affiliate_Links_Metabox {
 		$api_endpoint = "https://api.wecantrack.com/api/v1/affiliate/generate-link";
 		$payload = json_encode(array('landing_page_url' => $landing_page_url));
 	
-		$response = wp_remote_post("$api_endpoint?api_key=$api_key", array(
+		// Send the API key in a header rather than the URL query string so it does
+		// not leak into server/proxy access logs. The wecantrack API checks
+		// X-API-Key first and only falls back to the api_key param, so this is
+		// backward compatible.
+		$response = wp_remote_post($api_endpoint, array(
 			'method'    => 'POST',
 			'body'      => $payload,
 			'headers'   => array(
 				'Content-Type' => 'application/json',
+				'X-API-Key'    => $api_key,
 			),
 		));
 

@@ -71,9 +71,12 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 
 		if ( count( $range ) && $this->get_request_var( 'link_id' ) ) {
 			$link_id = intval( $this->get_request_var( 'link_id' ) );
-			$where = 'link_id=' . $link_id
-			         . " AND created_date >= '{$range['start_date']}'"
-			         . " AND created_date <= '{$range['end_date']}'";
+			$where = $this->wpdb->prepare(
+				'link_id = %d AND created_date >= %s AND created_date <= %s',
+				$link_id,
+				$range['start_date'],
+				$range['end_date']
+			);
 
 			$args = array(
 				'SELECT'   => '*, count(created_date) as hits',
@@ -204,10 +207,17 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 					),
 				),
 			) );
-			$link_ids = implode( ',', $link_ids->get_posts() );
-			$where    = "link_id IN ($link_ids)"
-			            . " AND created_date >= '{$range['start_date']}'"
-			            . " AND created_date <= '{$range['end_date']}'";
+			$link_ids = implode( ',', array_map( 'absint', $link_ids->get_posts() ) );
+
+			// A category with no published links would build "IN ()", which is invalid SQL.
+			if ( '' === $link_ids ) {
+				return;
+			}
+			$where    = "link_id IN ($link_ids) AND " . $this->wpdb->prepare(
+				'created_date >= %s AND created_date <= %s',
+				$range['start_date'],
+				$range['end_date']
+			);
 
 			$args = array(
 				'SELECT'   => '*, count(created_date) as hits',
@@ -324,7 +334,11 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 		}
 
 		$args['SELECT']   = "*, {$this->wpdb->prefix}posts.post_title as title, count(link_id) as hits";
-		$args['WHERE']    = "created_date >= '{$range['start_date']}' AND created_date <= '{$range['end_date']}'";
+		$args['WHERE']    = $this->wpdb->prepare(
+			'created_date >= %s AND created_date <= %s',
+			$range['start_date'],
+			$range['end_date']
+		);
 		$args['GROUP BY'] = 'link_id';
 		$args['JOIN']     = "{$this->wpdb->prefix}posts on {$this->wpdb->prefix}posts.ID = {$this->wpdb->prefix}af_links_activity.link_id";
 
@@ -368,7 +382,11 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 		}
 
 		$args['SELECT']   = '*, count(link_id) as hits';
-		$args['WHERE']    = "created_date >= '{$range['start_date']}' AND created_date <= '{$range['end_date']}'";
+		$args['WHERE']    = $this->wpdb->prepare(
+			'created_date >= %s AND created_date <= %s',
+			$range['start_date'],
+			$range['end_date']
+		);
 		$args['GROUP BY'] = 'browser';
 
 		if ( $this->get_request_var( 'orderby' ) && $this->get_request_var( 'order' ) ) {
@@ -403,7 +421,12 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 
 		return $this->load_activity( array(
 			'SELECT'   => 'browser as name, count(browser) as hits',
-			'WHERE'    => "link_id='{$link_id}' AND created_date >= '{$range['start_date']}' AND created_date <= '{$range['end_date']}'",
+			'WHERE'    => $this->wpdb->prepare(
+				'link_id = %d AND created_date >= %s AND created_date <= %s',
+				$link_id,
+				$range['start_date'],
+				$range['end_date']
+			),
 			'GROUP BY' => 'browser',
 		), ARRAY_A );
 	}
@@ -428,7 +451,12 @@ class Affiliate_Links_Pro_Stats extends Affiliate_Links_Pro_Base {
 
 		return $this->load_activity( array(
 			'SELECT'   => "`{$field}`, count(`{$field}`) as hits",
-			'WHERE'    => "link_id='{$link_id}' AND created_date >= '{$range['start_date']}' AND created_date <= '{$range['end_date']}'",
+			'WHERE'    => $this->wpdb->prepare(
+				'link_id = %d AND created_date >= %s AND created_date <= %s',
+				$link_id,
+				$range['start_date'],
+				$range['end_date']
+			),
 			'GROUP BY' => "`{$field}`",
 		), ARRAY_A );
 	}
